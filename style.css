@@ -24,6 +24,10 @@ body{
     background-color:#8AC926
 }
 
+.grey{
+    background-color:#888888;
+}
+
 .orange{
     background-color:#F08C30
 }
@@ -136,4 +140,45 @@ textarea { word-break: break-all; }
     display: flex;
     
     align-items: center;
+}
+
+#cost-input{
+    width:80vw;
+    aspect-ratio:10/2;
+    border-radius:1em;
+    margin:20px 0;
+    font-size:4em;
+    text-align:center;
+}
+
+.calc-div{
+    width:30%;
+    aspect-ratio: 1;
+    font-size: 3em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+}
+
+.calc-check{
+    border:1px solid white;
+    padding:0.1em 0.2em;
+    border-radius:25%;
+}
+
+.checked{
+    background-color:#8AC926;
+}
+
+.dop-check{
+    padding:5px 8px;
+    border-radius:20px;
+    border:1px solid white;
+    font-size: 36px;
+}
+
+.flex-left{
+    justify-content:flex-start;
 }
