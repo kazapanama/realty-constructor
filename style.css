@@ -62,7 +62,13 @@ text-align: center;
 
 }
 
-
+.id-wrapper{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap:20px;
+    margin-top: 40px;
+}
 
 /* #creation{
     
@@ -120,6 +126,9 @@ text-align: center;
     width:100%;
     aspect-ratio:10/2;
     border-radius:1em;
+    font-size: 2em;
+    font-weight: 500;
+    text-align: center;
 }
 
 .hide{
@@ -143,6 +152,8 @@ textarea { word-break: break-all; }
 }
 
 #cost-input{
+    background-color:white;
+    color:black;
     width:80vw;
     aspect-ratio:10/2;
     border-radius:1em;

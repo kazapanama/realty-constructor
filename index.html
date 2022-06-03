@@ -9,12 +9,19 @@
 </head>
 <body>
     
+    <div id="start" data-bigSCRN>
+        <div class="id-wrapper">
+        <img src="./img/logo.svg">
+        <h2>Конструкор описів</h2>
+        <button  class="big-btn blue" data-counstruct>Почати</button>
+        <button  class="big-btn green" data-archive>Архів</button>
+        </div>
+    </div>
 
-
-    <div id="questions" class="">
+    <div id="questions" class="hide" data-bigSCRN>
         <div class="top_part">
             <div class="questions-nav">
-                <img src="./img/back-icon.svg">
+                <img src="./img/back-icon.svg" class="arrow-back">
                 <img src="./img/home-icon.svg">
             </div>
             <div class="circles-block">
@@ -30,19 +37,19 @@
         <div class="bottom_part">
            
             <div class="question-block active">
-                <button value="Продам" class="big-btn blue">Продам</button>
-                <button value="Здам в оренду" class="big-btn blue">Здам в оренду</button>
+                <button value="Продам" class="big-btn blue" data-step="1">Продам</button>
+                <button value="Здам в оренду" class="big-btn blue" data-step="1">Здам в оренду</button>
             </div>
             
             
             
             <div class="question-block flex-row">
-                <button value="однокімнатну квартиру" class="small-btn blue">1</button>
-                <button value="двокімнатну квартиру" class="small-btn blue">2</button>
-                <button value="трьохкімнату квартиру" class="small-btn blue">3</button>
-                <button value="чотирьохкімнатну квартиру" class="small-btn blue">4</button>
-                <button value="п'ятикимнатну квартиру" class="small-btn blue">5</button>
-                <button value="будинок" class="big-btn blue">Будинок</button>
+                <button value="однокімнатну квартиру" class="small-btn blue" data-step="2">1</button>
+                <button value="двокімнатну квартиру" class="small-btn blue" data-step="2">2</button>
+                <button value="трьохкімнату квартиру" class="small-btn blue" data-step="2">3</button>
+                <button value="чотирьохкімнатну квартиру" class="small-btn blue" data-step="2">4</button>
+                <button value="п'ятикимнатну квартиру" class="small-btn blue" data-step="2">5</button>
+                <button value="будинок" class="big-btn blue" data-step="2">Будинок</button>
             </div>
             
             
@@ -50,33 +57,34 @@
             
             
             <div class="question-block ">
-                <button value="12 школи" class="big-btn blue">12 школа</button>
-                <button value="Автовокзалу" class="big-btn blue">Автовокзал</button>
-                <button value="Нового двіру" class="big-btn blue">Новий двір</button>
-                <button value="Центру" class="big-btn blue">Центр</button>
-                <button value="Басового куту" class="big-btn blue">Басів кут</button>
-                <button value="Північного" class="big-btn blue">Північний</button>
-                <button value="Ювілейного" class="big-btn blue">Ювілейний</button>
-                <button value="Льонокомбінату" class="big-btn blue">Льонокомбінат</button>
+                <button value="12 школи" class="big-btn blue" data-step="3">12 школа</button>
+                <button value="Автовокзалу" class="big-btn blue" data-step="3">Автовокзал</button>
+                <button value="Нового двіру" class="big-btn blue" data-step="3">Новий двір</button>
+                <button value="Центру" class="big-btn blue" data-step="3">Центр</button>
+                <button value="Басового куту" class="big-btn blue" data-step="3">Басів кут</button>
+                <button value="Північного" class="big-btn blue" data-step="3">Північний</button>
+                <button value="Ювілейного" class="big-btn blue" data-step="3">Ювілейний</button>
+                <button value="Льонокомбінату" class="big-btn blue" data-step="3">Льонокомбінат</button>
                 <input class="custom-input-area">
-                <button class="big-btn green">Свій варіант</button>
+                <span class="small-text">[напр. Північного, 12-ї школи, Автовокзалу]</span>
+                <button class="big-btn green" data-step="3a">Свій варіант</button>
 
             </div>
 
             <div class="question-block flex-row ">
-                <input type="text" id="cost-input">
+                <div  id="cost-input"></div>
                 <button value="0" class="small-btn red">X</button>
-                <button value="5000" class="small-btn orange">+5K</button>
-                <button value="1000" class="small-btn orange">+1K</button>
+                <button value="5000" class="small-btn orange" data-math>+5K</button>
+                <button value="1000" class="small-btn orange" data-math>+1K</button>
                 <div class="calc-div"> 
-                    <div class="calc-check">грн</div>
-                    <div class="calc-check">₴</div>
-                    <div class="calc-check ">$</div>
+                    <div class="calc-check" data-currency="грн">грн</div>
+                    <div class="calc-check" data-currency="₴">₴</div>
+                    <div class="calc-check " data-currency="$">$</div>
                 </div>
-                <button value="500" class="small-btn orange">+500</button>
-                <button value="100" class="small-btn orange">+100</button>
-                <button value="будинок" class="big-btn blue">Додати вартість</button>
-                <button value="будинок" class="big-btn grey">Пропустити</button>
+                <button value="500" class="small-btn orange" data-math>+500</button>
+                <button value="100" class="small-btn orange" data-math>+100</button>
+                <button value="будинок" class="big-btn blue" data-sendDivNumber>Додати вартість</button>
+                <button value="будинок" class="big-btn grey" data-numberSkip>Пропустити</button>
             </div>
 
             
@@ -90,8 +98,8 @@
                     <div class="dop-check " data-desc="Без дітей">Без дітей</div>
                     <div class="dop-check" data-desc="На довгий термін">На довгий термін</div>
                     <div class="dop-check" data-desc="Для порядних">Для порядних</div>
-                    <div class="dop-check " data-desc="Квартира тепла та затишна, поруч є все необхідне для комфортного проживання, магазини, супермаркети.">Стд полотно</div>
-                    <button value="будинок" class="big-btn blue">Завершити</button>
+                    <div class="dop-check " data-desc="Квартира тепла та затишна, поруч є все необхідне для комфортного проживання, магазини, супермаркети">Стд полотно</div>
+                    <button value="будинок" class="big-btn blue" data-result>Завершити</button>
                     
                 
             </div>
@@ -108,14 +116,24 @@
     </div>
 
 
-    <div id="result" class="hide">
-        <div class="result-textarea">
-        </div>
+    <div id="result" class="hide" data-bigSCRN>
+        <div class="id-wrapper">    
+            <div class="result-textarea">
+            </div>
 
+            <button  class="big-btn blue" data-counstruct>Новий опис</button>
+            <button  class="big-btn green" data-archive>Архів</button>
+        </div>
     </div>
 
 
-
+    <div id="archive" class="hide" data-bigSCRN>
+        <div class="questions-nav">
+            <img src="./img/back-icon.svg" class="arrow-back-archive">
+            
+        </div>
+        <h2>Останні описи:</h2>
+    </div>
 
 
 

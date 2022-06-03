@@ -1,28 +1,44 @@
-const screen2 = document.querySelector('#questions');
-const screen3 = document.querySelector('#result');
+// getting all question containers
 const questionBlocks = document.querySelectorAll('.question-block');
-let qBlock1 = questionBlocks[0];
-let qBlock2 = questionBlocks[1];
-let qBlock3 = questionBlocks[2];
-let qBlock4 = questionBlocks[3];
-let qBlock5 = questionBlocks[4]
+//setting up basic object
+let obj ={};
+obj.options = [];
+obj.currency = '';
+let counter = 1;
 
-//input of price
-let priceInput = document.querySelector('#price');
-qBlock4.children[0].value = 0;
+
+
+
+
+
+//getting main screens of app
+const screens = Array.from(document.querySelectorAll('[data-bigSCRN]'));
+//function to travel to main screen(number of screen)
+function toScreen(n){
+    screens.forEach(screen=>screen.classList.add('hide'))
+    screens[n].classList.remove('hide');
+}
+
+
+
+
 
 //getting checkboxes from last question page
 let detail_checks = document.querySelectorAll('[data-desc]')
 
 
 
+//setting up archive buttons
+const archiveButtons = document.querySelectorAll('[data-archive]');
+archiveButtons.forEach(btn=>btn.addEventListener('click',toArchive))
+
+function toArchive(){
+    toScreen(3)
+}
 
 
 
 
-let obj ={};
-obj.options = [];
-let counter = 0;
 
 //next question block on click
 
@@ -30,74 +46,130 @@ function nextQuestion(){
     counter++
     questionBlocks.forEach((qblock,idx)=>{
         qblock.classList.remove('active');
-        if(idx == counter){
+        if(idx == counter-1){
             qblock.classList.add('active');
         }
     })
 }
 
 
+function previous(){
+    counter--
+       
+    if (counter == 0){
+        toScreen(0);
+    }
+    
+    if (counter >= 1){
+       
+        questionBlocks.forEach((qblock,idx)=>{
+            qblock.classList.remove('active');
+            if(idx == counter-1){
+                qblock.classList.add('active');
+            }
+        })
+    
+    
+    }
+        
+    
 
 
 
-qBlock1.children[0].addEventListener('click',question1);
-qBlock1.children[1].addEventListener('click',question1);
+    
+}
+let backButton = document.querySelector('.arrow-back')
+
+backButton.addEventListener('click',previous)
 
 
-qBlock2.children[0].addEventListener('click',question2);
-qBlock2.children[1].addEventListener('click',question2);
-qBlock2.children[2].addEventListener('click',question2);
-qBlock2.children[3].addEventListener('click',question2);
-qBlock2.children[4].addEventListener('click',question2);
-qBlock2.children[5].addEventListener('click',question2);
+const constButtons= document.querySelectorAll('[data-counstruct]' );
+constButtons.forEach(btn=>btn.addEventListener('click',construct))
 
-
-
-qBlock3.children[0].addEventListener('click',question3);
-qBlock3.children[1].addEventListener('click',question3);
-qBlock3.children[2].addEventListener('click',question3);
-qBlock3.children[3].addEventListener('click',question3);
-qBlock3.children[4].addEventListener('click',question3);
-qBlock3.children[5].addEventListener('click',question3);
-qBlock3.children[6].addEventListener('click',question3);
-qBlock3.children[7].addEventListener('click',question3);
+function construct(){
+    toScreen(1);
+    counter = 0;
+    nextQuestion();
+}
 
 
 
-qBlock4.children[1].addEventListener('click',()=> qBlock4.children[0].value = 0);
+
+
+// STEP 1
+//getting buttons on first question page and adding event listeners
+let qBlock1 = document.querySelectorAll('[data-step="1"]');
+qBlock1.forEach(btn=>btn.addEventListener('click',question1))
+
+// STEP 2
+//getting buttons on second question page and adding event listeners
+let qBlock2 = document.querySelectorAll('[data-step="2"]');
+qBlock2.forEach(btn=>btn.addEventListener('click',question2))
+
+// STEP 3
+//getting buttons on 3rd page
+let qBlock3 = document.querySelectorAll('[data-step="3"]');
+let qBlock3a = document.querySelector('[data-step="3a"]');
+
+//setting event listeners on buttons of 3rd page
+qBlock3.forEach(btn=>btn.addEventListener('click',question3))
+qBlock3a.addEventListener('click',question3custom);
+
+
+
+// STEP 4
+//div to display calc value
+const costInput = document.querySelector('#cost-input');
+costInput.innerText = 0;
+
+// button to reset calculator
+const xButton = document.querySelector('.red');
+xButton.addEventListener('click',()=> costInput.innerText = 0);
 
 // plus buttons
-qBlock4.children[2].addEventListener('click',plus)
-qBlock4.children[3].addEventListener('click',plus)
-qBlock4.children[5].addEventListener('click',plus)
-qBlock4.children[6].addEventListener('click',plus)
+const mathButtons = document.querySelectorAll('[data-math]');
+mathButtons.forEach(btn=>btn.addEventListener('click',plus))
+
+//setting up sending number from div
+const sendDivNumber = document.querySelector('[data-sendDivNumber]');
+sendDivNumber.addEventListener('click',question4);
+
+
+//setting up skipping number
+const numberSkip = document.querySelector('[data-numberSkip]');
+numberSkip.addEventListener('click',skip);
+
+
+//setting up currency buttons
+const currencyButtons = document.querySelectorAll('[data-currency]');
+currencyButtons.forEach(btn=>btn.addEventListener('click',checkCurrency))
+
+function checkCurrency(e){
+    // currencyButtons.forEach(btn=>btn.classList.remove('checked'))
+    e.target.classList.toggle('checked');
+    currencyButtons.forEach(btn=>btn != e.target ? btn.classList.remove('checked') : null)
+    if(e.target.classList.contains('checked')){
+        obj.currency = (e.target.dataset.currency);
+    }
+    else{
+        obj.currency = '';
+    }
+}
 
 
 
 
 
-//send buttons
-qBlock4.children[7].addEventListener('click',question4);
-qBlock4.children[8].addEventListener('click',skip);
 
 
-//checkboxes
-qBlock5.children[0].addEventListener('click',checkCheckbox);
-qBlock5.children[1].addEventListener('click',checkCheckbox);
-qBlock5.children[2].addEventListener('click',checkCheckbox);
-qBlock5.children[3].addEventListener('click',checkCheckbox);
-qBlock5.children[4].addEventListener('click',checkCheckbox);
-qBlock5.children[5].addEventListener('click',checkCheckbox);
-qBlock5.children[6].addEventListener('click',checkCheckbox);
+// STEP 5
+//setting up checkboxes on question 5
+let lastChecks = document.querySelectorAll('.dop-check');
+lastChecks.forEach(check=>check.addEventListener('click',checkCheckbox))
 
-
-
-
-
-//last page submit
-qBlock5.children[7].addEventListener('click',question5);
-
-
+//submit button for question 5
+const resultButton = document.querySelector('[data-result]');
+resultButton.addEventListener('click',question5);
 
 
 function checkCheckbox(e){
@@ -115,71 +187,56 @@ function checkCheckbox(e){
 
 
 function plus(e){
-    qBlock4.children[0].value = parseInt(qBlock4.children[0].value) + parseInt(e.target.value);
+    costInput.innerText = parseInt(costInput.innerText) + parseInt(e.target.value);
 }
 
 
 function question1(e){
     obj.q1 = e.target.value;
-
     nextQuestion()
 }
 
 function question2(e){
     obj.q2 = e.target.value;
-
     nextQuestion()
 }
 
 function question3(e){
-    obj.q3 = e.target.value;
-    
+    obj.area = e.target.value;
+    nextQuestion();    
+}
 
 
+function question3custom(){
+    obj.area = document.querySelector('.custom-input-area').value;
     nextQuestion();
-
-    
 }
 
 
 function skip(){
-    obj.q4 = '.';
+    obj.price = '.';
     nextQuestion();
 }
-
-
 
 
 function question4(e){
-    obj.q4 = ` за ${qBlock4.children[0].value}.&#9166;`;
-
-
+    obj.price = ` за ${costInput.innerText}`;
     nextQuestion();
-
-    
 }
 
 function question5(e){
-    
-
-
-   finalOchka();
-
-    
+   toScreen(2);
+   let a = document.querySelector('.result-textarea');
+    a.innerHTML = `${obj.q1} ${obj.q2} в районі ${obj.area} ${obj.price} ${obj.currency}.
+    ${obj.options.join('. ')}.`
+    a.addEventListener('click',copyArea)
 }
 
 
-
-
-function finalOchka(){
-
-    screen2.classList.add('hide');
-    screen3.classList.remove('hide');
-    let a = document.querySelector('.result-textarea');
-    a.innerHTML = `${obj.q1} ${obj.q2} в районі ${obj.q3}${obj.q4}
-    ${obj.options.join('. ')}`;
+function copyArea(e){
+    navigator.clipboard.writeText(e.target.innerHTML)
+    .then(() => alert("Copied"))
 }
-
 
 
 
