@@ -1,3 +1,12 @@
+//getting main screens of app
+const screens = Array.from(document.querySelectorAll('[data-bigSCRN]'));
+
+//function to travel to main screen(number of screen)
+function toScreen(n){
+    screens.forEach(screen=>screen.classList.add('hide'))
+    screens[n].classList.remove('hide');
+}
+
 // getting all question containers
 const questionBlocks = document.querySelectorAll('.question-block');
 //setting up basic object
@@ -7,37 +16,23 @@ obj.currency = '';
 let counter = 1;
 
 
+//setting up dynamic title
+const questionTitle = document.querySelector('[data-questionTitle]');
+const titles = ['Вид операції:','Дані про об’єкт:', 'Район:','Ціна:','Додатково:']
 
-
-
-
-//getting main screens of app
-const screens = Array.from(document.querySelectorAll('[data-bigSCRN]'));
-//function to travel to main screen(number of screen)
-function toScreen(n){
-    screens.forEach(screen=>screen.classList.add('hide'))
-    screens[n].classList.remove('hide');
+function updateQuestionTitle(){
+    questionTitle.innerText = titles[counter-1];
 }
 
-
-
-
-
-//getting checkboxes from last question page
-let detail_checks = document.querySelectorAll('[data-desc]')
-
-
-
-//setting up archive buttons
-const archiveButtons = document.querySelectorAll('[data-archive]');
-archiveButtons.forEach(btn=>btn.addEventListener('click',toArchive))
-
-function toArchive(){
-    renderArchive()
-    const archiveItems = document.querySelectorAll('.archive-textarea');
-    archiveItems.forEach(item=>item.addEventListener('click',copyArea))
-    toScreen(3)
-    
+//setting up stage circles
+const circles = document.querySelectorAll('.circle');
+function updateCircles(){
+    circles.forEach((circle,idx)=>{
+        circle.classList.remove('active-circle');
+        if(idx <= counter-1){
+            circle.classList.add('active-circle');
+        }
+    })
 }
 
 
@@ -56,9 +51,11 @@ function nextQuestion(){
             qblock.classList.add('active');
         }
     })
+    updateQuestionTitle();
+    updateCircles()
 }
 
-
+//previous question block on click or main screen 
 function previous(){
     counter--
        
@@ -74,7 +71,8 @@ function previous(){
                 qblock.classList.add('active');
             }
         })
-    
+        updateQuestionTitle();
+        updateCircles()
     
     }
         
@@ -88,17 +86,17 @@ let backButton = document.querySelector('.arrow-back')
 
 backButton.addEventListener('click',previous)
 
-
+//setting up buttons that navigate to question screen
 const constButtons= document.querySelectorAll('[data-counstruct]' );
 constButtons.forEach(btn=>btn.addEventListener('click',construct))
 
+//function that navigate to question screen
 function construct(){
     toScreen(1);
     counter = 0;
     nextQuestion();
+    updateQuestionTitle()
 }
-
-
 
 
 
@@ -107,10 +105,25 @@ function construct(){
 let qBlock1 = document.querySelectorAll('[data-step="1"]');
 qBlock1.forEach(btn=>btn.addEventListener('click',question1))
 
+//submit and go to question 2
+function question1(e){
+    obj.q1 = e.target.value;
+    nextQuestion()
+}
+
+
+
 // STEP 2
 //getting buttons on second question page and adding event listeners
 let qBlock2 = document.querySelectorAll('[data-step="2"]');
 qBlock2.forEach(btn=>btn.addEventListener('click',question2))
+
+//submit and go to question 3
+function question2(e){
+    obj.q2 = e.target.value;
+    nextQuestion()
+}
+
 
 // STEP 3
 //getting buttons on 3rd page
@@ -120,6 +133,20 @@ let qBlock3a = document.querySelector('[data-step="3a"]');
 //setting event listeners on buttons of 3rd page
 qBlock3.forEach(btn=>btn.addEventListener('click',question3))
 qBlock3a.addEventListener('click',question3custom);
+
+//submit and go to question 4
+function question3(e){
+    obj.area = e.target.value;
+    nextQuestion();  
+}
+
+function question3custom(){
+    obj.area = document.querySelector('.custom-input-area').value;
+    nextQuestion();
+}
+
+
+
 
 
 
@@ -151,7 +178,7 @@ const currencyButtons = document.querySelectorAll('[data-currency]');
 currencyButtons.forEach(btn=>btn.addEventListener('click',checkCurrency))
 
 function checkCurrency(e){
-    // currencyButtons.forEach(btn=>btn.classList.remove('checked'))
+   
     e.target.classList.toggle('checked');
     currencyButtons.forEach(btn=>btn != e.target ? btn.classList.remove('checked') : null)
     if(e.target.classList.contains('checked')){
@@ -161,6 +188,21 @@ function checkCurrency(e){
         obj.currency = '';
     }
 }
+
+function plus(e){
+    costInput.innerText = parseInt(costInput.innerText) + parseInt(e.target.value);
+}
+//submit and go to question 5
+function question4(e){
+    obj.price = ` за ${costInput.innerText}`;
+    nextQuestion();
+}
+
+function skip(){
+    obj.price = '.';
+    nextQuestion();
+}
+
 
 
 
@@ -177,7 +219,7 @@ lastChecks.forEach(check=>check.addEventListener('click',checkCheckbox))
 const resultButton = document.querySelector('[data-result]');
 resultButton.addEventListener('click',question5);
 
-
+//function to check checkboxes on question 5
 function checkCheckbox(e){
     e.target.classList.toggle('checked');
     if(e.target.classList.contains('checked')){
@@ -188,48 +230,7 @@ function checkCheckbox(e){
     }
 }
 
-
-
-
-
-function plus(e){
-    costInput.innerText = parseInt(costInput.innerText) + parseInt(e.target.value);
-}
-
-
-function question1(e){
-    obj.q1 = e.target.value;
-    nextQuestion()
-}
-
-function question2(e){
-    obj.q2 = e.target.value;
-    nextQuestion()
-}
-
-function question3(e){
-    obj.area = e.target.value;
-    nextQuestion();    
-}
-
-
-function question3custom(){
-    obj.area = document.querySelector('.custom-input-area').value;
-    nextQuestion();
-}
-
-
-function skip(){
-    obj.price = '.';
-    nextQuestion();
-}
-
-
-function question4(e){
-    obj.price = ` за ${costInput.innerText}`;
-    nextQuestion();
-}
-
+//subit and go to result screen
 function question5(e){
    toScreen(2);
   
@@ -240,7 +241,6 @@ function question5(e){
     
     //adding copy on click
     a.addEventListener('click',copyArea)
-
 
     //archive part
     //checking if archive exists
@@ -259,12 +259,9 @@ function question5(e){
         objectsDB.push(obj);
         localStorage.setItem('objectsDB',JSON.stringify(objectsDB));
     }
-
-
-
 }
 
-
+//function to copy textarea
 function copyArea(e){
     navigator.clipboard.writeText(e.target.innerHTML)
     .then(() => alert("Copied"))
@@ -272,17 +269,40 @@ function copyArea(e){
 
 
 //archive part
+//setting up archive buttons
+const archiveButtons = document.querySelectorAll('[data-archive]');
+archiveButtons.forEach(btn=>btn.addEventListener('click',toArchive))
+
+function toArchive(){
+    renderArchive()
+    const archiveItems = document.querySelectorAll('.archive-textarea');
+    archiveItems.forEach(item=>item.addEventListener('click',copyArea))
+    toScreen(3)
+    
+}
+
+//back from archive
+const backButtonArch = document.querySelector('.arrow-back-archive');
+backButtonArch.addEventListener('click',toHome);
+
+function toHome(){
+    toScreen(0);
+}
+
+
+//display archive
 function renderArchive(){
     let title = document.querySelector('[data-arcTitle]');
     let arcDiv = document.querySelector('.inject-archive');
-    let objectsDB = JSON.parse(localStorage.getItem('objectsDB')).reverse();
-
-
-    if (objectsDB.length == 0){
-        title.innerText = 'Немає записів в архіва';
-        arcDiv.innerHTML = '>_<';
+    //checking if archive exists
+    if (localStorage.getItem('objectsDB') == null){
+        //if dont exists
+        title.innerText = 'Немає записів в архіві';
+        arcDiv.innerHTML = '<h2>>_<</h2>';
     } else {
-        title.innerText = `В архіві ${objectsDB.length} записів`;
+        //if exists
+        let objectsDB = JSON.parse(localStorage.getItem('objectsDB')).reverse();
+        title.innerText = `Записів в архіві: ${objectsDB.length}`;
         let template ='';
         objectsDB.forEach(obj=>{
             template += `<div class="archive-textarea">
@@ -293,40 +313,8 @@ function renderArchive(){
         })
         arcDiv.innerHTML = template;
     }
-
-
-
-}
-//back from archive
-const backButtonArch = document.querySelector('.arrow-back-archive');
-backButtonArch.addEventListener('click',toHome);
-
-
-
-
-
-
-function toHome(){
-    toScreen(0);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let myWalletNumber = '5168 35'
 
 
