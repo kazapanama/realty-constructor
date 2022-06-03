@@ -137,7 +137,9 @@ text-align: center;
 
 textarea { word-break: break-all; }
 
-.result-textarea{
+.archive-textarea,
+.result-textarea
+{
     width:85%;
     padding:20px;
     background-color:white;

@@ -33,11 +33,17 @@ const archiveButtons = document.querySelectorAll('[data-archive]');
 archiveButtons.forEach(btn=>btn.addEventListener('click',toArchive))
 
 function toArchive(){
+    renderArchive()
+    const archiveItems = document.querySelectorAll('.archive-textarea');
+    archiveItems.forEach(item=>item.addEventListener('click',copyArea))
     toScreen(3)
+    
 }
 
 
-
+//home button on questions
+const homeButton = document.querySelector('[data-home]');
+homeButton.addEventListener('click',toHome);
 
 
 //next question block on click
@@ -226,10 +232,36 @@ function question4(e){
 
 function question5(e){
    toScreen(2);
+  
+   //showing result
    let a = document.querySelector('.result-textarea');
     a.innerHTML = `${obj.q1} ${obj.q2} в районі ${obj.area} ${obj.price} ${obj.currency}.
     ${obj.options.join('. ')}.`
+    
+    //adding copy on click
     a.addEventListener('click',copyArea)
+
+
+    //archive part
+    //checking if archive exists
+    if (localStorage.getItem('objectsDB')){
+        //if archive exists
+        let objectsDB = JSON.parse(localStorage.getItem('objectsDB'));
+        objectsDB.push(obj)
+        if (objectsDB.length > 5){
+            objectsDB.shift();
+        }
+
+        localStorage.setItem('objectsDB',JSON.stringify(objectsDB));
+    } else {
+        // if archive is not exist
+        let objectsDB = [];
+        objectsDB.push(obj);
+        localStorage.setItem('objectsDB',JSON.stringify(objectsDB));
+    }
+
+
+
 }
 
 
@@ -239,6 +271,44 @@ function copyArea(e){
 }
 
 
+//archive part
+function renderArchive(){
+    let title = document.querySelector('[data-arcTitle]');
+    let arcDiv = document.querySelector('.inject-archive');
+    let objectsDB = JSON.parse(localStorage.getItem('objectsDB')).reverse();
+
+
+    if (objectsDB.length == 0){
+        title.innerText = 'Немає записів в архіва';
+        arcDiv.innerHTML = '>_<';
+    } else {
+        title.innerText = `В архіві ${objectsDB.length} записів`;
+        let template ='';
+        objectsDB.forEach(obj=>{
+            template += `<div class="archive-textarea">
+                            ${obj.q1} ${obj.q2} в районі ${obj.area} ${obj.price} ${obj.currency}.
+                            ${obj.options.join('. ')}
+                        </div>`
+
+        })
+        arcDiv.innerHTML = template;
+    }
+
+
+
+}
+//back from archive
+const backButtonArch = document.querySelector('.arrow-back-archive');
+backButtonArch.addEventListener('click',toHome);
+
+
+
+
+
+
+function toHome(){
+    toScreen(0);
+}
 
 
 
@@ -257,8 +327,6 @@ function copyArea(e){
 
 
 
-
-
-
+let myWalletNumber = '5168 35'
 
 
